@@ -1,0 +1,51 @@
+{% macro do_blocks(container) %}
+{% for block in container.blocks -%}
+{% if block.type == "text_block" %}
+<p class="ocr_par" dir="ltr" id="{{ block.id }}" lang="{{ block.lang }}" title="{{ block.box }}">
+  {% for line in block.lines -%}
+  <span class="ocr_line" id="{{ line.id }}" title="{{ line.box }}">
+    {% for component in line.components if component.type == "string" -%}
+    <span class="ocrx_word" id="{{ component.id }}" title="{{ component.box }}">
+      {{- component.content -}}
+    </span>
+    {% endfor %}
+  </span>
+  {% endfor %}
+</p>
+{% elif block.type == "container" -%}
+<div class="ocr_carea" id="{{ block.id }}" title="{{ block.box }}">
+  {{ do_blocks(block) | indent(width=2) }}
+</div>
+{% endif %}
+{% endfor %}
+{% endmacro -%}
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" {{ language | xmlattr }}>
+  <head>
+    <title>Image: {{ hocr.file_name }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    {% for name, version in hocr.system -%}
+    <meta name="ocr-system" content="{{ name }} {{ version }}" />
+    {%- endfor %}
+    <meta name="ocr-capabilities" content="ocr_page ocr_header ocr_footer ocr_carea ocr_par ocr_line ocrx_word" />
+  </head>
+  <body>
+    {% for page in hocr.pages -%}
+    <div class="ocr_page" title="Image {{ hocr.file_name }}; bbox 0 0 {{ page.width }} {{ page.height }}; ppageno {{ loop.index }}" id="{{ page.id }}">
+      {% if page.top_margin.blocks -%}
+      <div class="ocr_header" id="{{ page.top_margin.id }}" title="{{ page.top_margin.box }}">
+	{{ do_blocks(page.top_margin) | indent(width=6) }}
+      </div>
+      {%- endif %}
+      {{ do_blocks(page.print_space) | indent(width=6) }}
+      {% if page.bottom_margin.blocks -%}
+      <div class="ocr_footer" id="{{ page.bottom_margin.id }}" title="{{ page.bottom_margin.box }}">
+	{{ do_blocks(page.bottom_margin) | indent(width=6) }}
+      </div>
+      {%- endif %}
+    </div>
+    {%- endfor %}
+  </body>
+</html>

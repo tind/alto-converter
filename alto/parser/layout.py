@@ -11,7 +11,7 @@ class PageSpace(BlockContainer):
 class Page(HandlerBase):
     def startElement(self, name, attrs):
         super().startElement(name, attrs)
-        
+
         if name == "Page":
             self.attrs = dict(attrs)
         elif name == "TopMargin":

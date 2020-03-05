@@ -1,11 +1,9 @@
 from xml.sax.handler import ContentHandler
 
-ID = -1
-def generate_id():
-    ID += 1
-    return ID
 
 class HandlerBase(ContentHandler):
+    num = 0
+
     def __init__(self, parser, parent=None, stop_name=""):
         self._parser = parser
         self._parent = parent
@@ -20,6 +18,27 @@ class HandlerBase(ContentHandler):
         parser.setContentHandler(s)
 
         return s
+
+    def get_id(self):
+        if "ID" in self.attrs:
+            return self.attrs["ID"]
+
+        num = HandlerBase.num
+        HandlerBase.num += 1
+        return "{}_{}".format(type(self).__name__, num)
+
+    def get_box(self):
+        try:
+            right = int(self.attrs["WIDTH"]) + int(self.attrs["HPOS"])
+            bottom = int(self.attrs["HEIGHT"]) + int(self.attrs["VPOS"])
+        except KeyError:
+            return ""
+
+        elements = ["bbox", self.attrs["HPOS"], self.attrs["VPOS"], right, bottom]
+        if "WC" in self.attrs:
+            elements.append("; x_wconf " + str(float(self.attrs["WC"]) * 100))
+
+        return " ".join([str(e) for e in elements])
 
     def startElement(self, name, attrs):
         self._text = []

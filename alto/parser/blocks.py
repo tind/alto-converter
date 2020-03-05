@@ -65,6 +65,9 @@ class TextLine(HandlerBase):
             hyphen.startElement(name, attrs)
             self.components.append(hyphen)
 
+    def get_strings(self):
+        return [component for component in self.components if type(component) == String]
+
 class TextBlock(Block):
     def startElement(self, name, attrs):
         super().startElement(name, attrs)
@@ -75,6 +78,9 @@ class TextBlock(Block):
             line = TextLine.as_sub_handler(self._parser, self, name)
             line.startElement(name, attrs)
             self.components.append(line)
+
+    def get_text_lines(self):
+        return [component for component in self.components if type(component) == TextLine]
 
 class BlockContainer(HandlerBase):
     def __init__(self, parser, parent, stop_name):
@@ -101,6 +107,9 @@ class BlockContainer(HandlerBase):
             composed_block = ComposedBlock.as_sub_handler(self._parser, self, name)
             composed_block.attrs = dict(attrs)
             self.blocks.append(composed_block)
+
+    def get_blocks_by_name(self, type_name):
+        return [block for block in self.blocks if type(block).__name__ == type_name]
 
 class Illustration(HandlerBase):
     def startElement(self, name, attrs):
