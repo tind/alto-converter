@@ -12,7 +12,7 @@ def main():
 
     with open("alto.xml", "r") as f:
         source = prepare_input_source(f)
-        alto.parse(f)
+        alto.parse(source)
 
     print("Parsed")
 
