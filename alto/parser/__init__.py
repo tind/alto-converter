@@ -1,6 +1,5 @@
 from xml.sax.handler import ContentHandler
 
-
 class HandlerBase(ContentHandler):
     num = 0
 

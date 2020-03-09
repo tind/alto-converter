@@ -1,8 +1,8 @@
-from alto.parser.blocks import (ComposedBlock,
-                                TextBlock,
-                                TextLine,
-                                String,
-                                Hyphen)
+from alto.parser.handler import (ComposedBlock,
+                                 TextBlock,
+                                 TextLine,
+                                 String,
+                                 Hyphen)
 
 def prepare_line(text_line):
     line = {"id": text_line.get_id(),
