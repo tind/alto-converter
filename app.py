@@ -3,7 +3,7 @@ from xml.sax.saxutils import prepare_input_source
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from alto.parser.alto import Alto
+from alto.parser.handler import Alto
 from alto.converter import prepare_alto
 
 def main():
