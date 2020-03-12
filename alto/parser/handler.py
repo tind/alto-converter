@@ -14,18 +14,18 @@ class Alto(HandlerBase):
 
 class Description(HandlerBase):
     def __init__(self, parser, parent, stop_name):
-        super().__init__(parser, parent, stop_name)
+        super(Description, self).__init__(parser, parent, stop_name)
         self.processing_steps = []
 
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Description, self).startElement(name, attrs)
         if name == "ocrProcessingStep":
             processing_step = OCRProcessingStep.as_sub_handler(self._parser, self, name)
             processing_step.startElement(name, attrs)
             self.processing_steps.append(processing_step)
 
     def endElement(self, name):
-        if super().endElement(name) is not None:
+        if super(Description, self).endElement(name) is not None:
             return
 
         if name == "MeasurementUnit":
@@ -35,7 +35,7 @@ class Description(HandlerBase):
 
 class OCRProcessingStep(HandlerBase):
     def endElement(self, name):
-        if super().endElement(name) is not None:
+        if super(OCRProcessingStep, self).endElement(name) is not None:
             return
 
         if name == "processingDateTime":
@@ -47,12 +47,12 @@ class OCRProcessingStep(HandlerBase):
 
 class Layout(HandlerBase):
     def __init__(self, parser, parent, stop_name):
-        super().__init__(parser, parent, stop_name)
+        super(Layout, self).__init__(parser, parent, stop_name)
 
         self.pages = []
 
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Layout, self).startElement(name, attrs)
 
         if name == "Layout":
             self.attrs = dict(attrs)
@@ -63,7 +63,7 @@ class Layout(HandlerBase):
 
 class Page(HandlerBase):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Page, self).startElement(name, attrs)
 
         if name == "Page":
             self.attrs = dict(attrs)
@@ -85,12 +85,12 @@ class Page(HandlerBase):
 
 class BlockContainer(HandlerBase):
     def __init__(self, parser, parent, stop_name):
-        super().__init__(parser, parent, stop_name)
+        super(BlockContainer, self).__init__(parser, parent, stop_name)
 
         self.blocks = []
 
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(BlockContainer, self).startElement(name, attrs)
 
         if name == "TextBlock":
             text_block = TextBlock.as_sub_handler(self._parser, self, name)
@@ -114,19 +114,19 @@ class BlockContainer(HandlerBase):
 
 class PageSpace(BlockContainer):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(PageSpace, self).startElement(name, attrs)
 
         if name == self._stop_name:
             self.attrs = dict(attrs)
 
 class Block(HandlerBase):
     def __init__(self, parser, parent, stop_name):
-        super().__init__(parser, parent, stop_name)
+        super(Block, self).__init__(parser, parent, stop_name)
 
         self.components = []
 
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Block, self).startElement(name, attrs)
 
         if name in ("Polygon", "Ellipse", "Circle"):
             shape = Shape.as_sub_handler(self._parser, self, name)
@@ -134,7 +134,7 @@ class Block(HandlerBase):
 
 class TextBlock(Block):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(TextBlock, self).startElement(name, attrs)
 
         if name == "TextBlock":
             self.attrs = dict(attrs)
@@ -148,7 +148,7 @@ class TextBlock(Block):
 
 class Shape(HandlerBase):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Shape, self).startElement(name, attrs)
 
         self.shape_type = name
         self.attrs = dict(attrs)
@@ -156,14 +156,14 @@ class Shape(HandlerBase):
 
 class Illustration(HandlerBase):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Illustration, self).startElement(name, attrs)
 
         if name == "Illustration":
             self.attrs = dict(attrs)
 
 class GraphicalElement(HandlerBase):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(GraphicalElement, self).startElement(name, attrs)
 
         if name == "GraphicalElement":
             self.attrs = dict(attrs)
@@ -173,12 +173,12 @@ class ComposedBlock(BlockContainer):
 
 class TextLine(HandlerBase):
     def __init__(self, parser, parent, stop_name):
-        super().__init__(parser, parent, stop_name)
+        super(TextLine, self).__init__(parser, parent, stop_name)
 
         self.components = []
 
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(TextLine, self).startElement(name, attrs)
 
         if name == "TextLine":
             self.attrs = dict(attrs)
@@ -200,21 +200,21 @@ class TextLine(HandlerBase):
 
 class String(HandlerBase):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(String, self).startElement(name, attrs)
 
         if name == "String":
             self.attrs = dict(attrs)
 
 class Space(HandlerBase):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Space, self).startElement(name, attrs)
 
         if name == "SP":
             self.attrs = dict(attrs)
 
 class Hyphen(HandlerBase):
     def startElement(self, name, attrs):
-        super().startElement(name, attrs)
+        super(Hyphen, self).startElement(name, attrs)
 
         if name == "HYP":
             self.attrs = dict(attrs)

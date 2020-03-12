@@ -1,6 +1,6 @@
 from xml.sax.handler import ContentHandler
 
-class HandlerBase(ContentHandler):
+class HandlerBase(ContentHandler, object):
     num = 0
 
     def __init__(self, parser, parent=None, stop_name=""):
