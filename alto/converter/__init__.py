@@ -45,6 +45,10 @@ def prepare_container(container):
     return c
 
 def prepare_alto(alto):
+    """
+    Prepares a simple dictionary structure, intended for use in templates.
+
+    """
     hocr = {"file_name": getattr(alto.description, "file_name", "file"),
             "system": [(step.software_name, step.software_version) for step in alto.description.processing_steps]}
 
