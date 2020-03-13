@@ -9,3 +9,9 @@ bundled, see `app.py` for an example usage.
 
 You need at least Python 2.7, should work fine with Python 3 as
 well. For HOCR conversion you need Jinja.
+
+# Acknowledgements
+
+The `get_box` logic in the Alto parser and large parts of the hOCR template were inspired
+by the [`abbyy2hocr.xsl` template](https://github.com/OCR-D/format-converters/blob/9615db1920cb8e15a38427333b41cdbee8baf4b6/abbyy2hocr.xsl),
+distributed by OCR-D on GitHub.
