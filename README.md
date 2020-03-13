@@ -8,7 +8,7 @@ bundled, see `app.py` for an example usage.
 # Requirements
 
 You need at least Python 2.7, should work fine with Python 3 as
-well. For HOCR conversion you need Jinja.
+well. For hOCR conversion you need Jinja.
 
 # Acknowledgements
 
