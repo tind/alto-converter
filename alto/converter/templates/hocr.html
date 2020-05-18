@@ -48,13 +48,15 @@ limitations under the License. -#}
   <body>
     {% for page in hocr.pages -%}
     <div class="ocr_page" title="Image {{ hocr.file_name }}; bbox 0 0 {{ page.width }} {{ page.height }}; ppageno {{ loop.index }}" id="{{ page.id }}">
-      {% if page.top_margin.blocks -%}
+      {% if page.top_margin and page.top_margin.blocks -%}
       <div class="ocr_header" id="{{ page.top_margin.id }}" title="{{ page.top_margin.box }}">
 	{{ do_blocks(page.top_margin) | indent(width=6) }}
       </div>
       {%- endif %}
-      {{ do_blocks(page.print_space) | indent(width=6) }}
-      {% if page.bottom_margin.blocks -%}
+      {% if page.print_space %}
+        {{ do_blocks(page.print_space) | indent(width=6) }}
+      {% endif %}
+      {% if page.bottom_margin and page.bottom_margin.blocks -%}
       <div class="ocr_footer" id="{{ page.bottom_margin.id }}" title="{{ page.bottom_margin.box }}">
 	{{ do_blocks(page.bottom_margin) | indent(width=6) }}
       </div>
